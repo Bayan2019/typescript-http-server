@@ -23,3 +23,52 @@ async function fetchUserData(userId: number): Promise<User> {
 }
 ```
 https://www.boot.dev/lessons/b529b2c7-d5ec-47bb-9c6c-a63e8a7e507d
+
+### Setup
+
+After installing `nvm`, add a `.nvmrc` file to the root of your project directory that contains a snippet of text:
+```sh
+21.7.0
+```
+This allows you to simply type `nvm use` in your CLI while in the root of your project to activate the correct version of node! 
+You may get an installation command to run if you don't yet have that version of node, but it's just another one-liner.
+
+### Build
+
+1. To create a new Node.js project run
+    ```sh
+    npm init -y
+    ```
+2. Add TypeScript along with types for `node`
+    ```sh
+    npm install -D typescript @types/node
+    ```
+3. Configure TypeScript by creating a `tsconfig.json` file.
+4. Configure the `package.json` in the root of your project
+6. Add the express library along with its types to your project
+    ```sh
+    npm i express
+    npm i -D @types/express
+    ```
+9. Run your server
+    ```sh
+    npm run dev
+    ```
+
+## Routing
+
+## Architecture
+
+## JSON
+
+## Error Handling
+
+## Storage
+
+## Authentication
+
+## Authorization
+
+## Webhooks
+
+## Documentation
