@@ -33,6 +33,10 @@ After installing `nvm`, add a `.nvmrc` file to the root of your project director
 This allows you to simply type `nvm use` in your CLI while in the root of your project to activate the correct version of node! 
 You may get an installation command to run if you don't yet have that version of node, but it's just another one-liner.
 
+```sh
+npm install typescript
+```
+
 ### Build
 
 1. To create a new Node.js project run
@@ -54,6 +58,16 @@ You may get an installation command to run if you don't yet have that version of
     ```sh
     npm run dev
     ```
+
+### Fileservers
+
+A fileserver is a kind of simple web server that serves static files from the host machine. 
+Fileservers are often used to serve static assets for a website, things like:
+
+- HTML
+- CSS
+- JavaScript
+- Images
 
 ## Routing
 
