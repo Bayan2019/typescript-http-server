@@ -2,3 +2,5 @@
 ch01-lesson01/.DS_Store
 .nvmrc
 node_modules/
+dist/
+server.log

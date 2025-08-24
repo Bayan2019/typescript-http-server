@@ -100,6 +100,30 @@ Instead of returning a value all at once from the handler function, we write the
 
 ### Middleware
 
+Middleware is a way to wrap a handler with additional functionality. 
+It is a common pattern in web applications that allows us to write DRY code. 
+
+Middleware in Express has the following function signature:
+```ts
+type Middleware = (req: Request, res: Response, next: NextFunction) => void;
+```
+* `req`: The request object.
+* `res`: The response object.
+* `next`: A function that, when called, will pass control to the next middleware in the chain.
+
+You can register middleware on an application level using the express app's `.use` method.
+```ts
+app.use(middlewareLogging);
+```
+You can also apply it to specific routes by passing it as an argument to the route's handler.
+```ts
+app.get("/users", middlewareLogging, handlerGetUsers);
+```
+In fact, you can use as many middlewares as you like:
+```ts
+app.get('/users', middlewareLogging, middlewareAuth, ...,  handlerGetUsers);
+```
+
 ### API Config
 
 ## Architecture
