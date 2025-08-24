@@ -126,6 +126,9 @@ app.get('/users', middlewareLogging, middlewareAuth, ...,  handlerGetUsers);
 
 ### API Config
 
+It's frequently useful to have a way to store and access state in our handlers. 
+For example, we might want to keep track of the number of requests we've received, or we may want to pass around credentials to an API.
+
 ## Architecture
 
 ## JSON
