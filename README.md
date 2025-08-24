@@ -131,6 +131,17 @@ For example, we might want to keep track of the number of requests we've receive
 
 ## Architecture
 
+### Monoliths and Decoupling
+
+#### Monolithic
+
+A monolith is a single, large program that contains all the functionality for both the front-end and the back-end of an application. 
+
+#### Decoupled
+
+A "decoupled" architecture is one where the front-end and back-end are separated into different codebases. 
+For example, the front-end might be hosted by a static file server on one domain, and the back-end might be hosted on a subdomain by a different server.
+
 ## JSON
 
 ## Error Handling

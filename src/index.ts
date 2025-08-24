@@ -17,15 +17,15 @@ app.use("/app", middlewareMetricsInc, express.static("./src/app"));
 
 // Ch 1. Servers Lv 2. Custom Handlers
 // Use the .get method to add a handler for the /healthz path.
-app.get("/healthz", handlerReadiness);
+app.get("/api/healthz", handlerReadiness);
 
 // Ch 2. Routing Lv 2. API Config
 // Register that handler in the express app on the /metrics path
-app.get("/metrics", handlerMetric)
+app.get("/api/metrics", handlerMetric)
 
 // Ch 2. Routing Lv 2. API Config
 // Register that handler in the express app on the /reset path
-app.get("/reset", handlerMetric)
+app.get("/api/reset", handlerMetric)
 
 // Set the server to listen on port 8080 using the .listen() method
 // app.listen("8080")
