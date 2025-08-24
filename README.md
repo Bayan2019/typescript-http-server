@@ -69,7 +69,38 @@ Fileservers are often used to serve static assets for a website, things like:
 - JavaScript
 - Images
 
+### Workflow Tips
+
+Servers are interesting because they're always running. 
+A lot of the code we've written in Boot.dev up to this point has acted more like a command line tool: it runs, does its thing, and then exits.
+
+Servers are different. 
+They run forever, waiting for requests to come in, processing them, sending responses, and then waiting for the next request. 
+If they didn't work this way, websites and apps would be down and unavailable all the time!
+
+### Custom Handlers
+
+An HTTP handler in Express is typically a function with the following signature:
+```ts
+(req: Request, res: Response) => Promise<void>;
+```
+To handle an incoming HTTP request, all a handler function requires is the request object and a response object in order to communicate back to the client.
+
+### Request, Response
+
+All handlers in express take a `Request` and a `Response`.
+
+The `Request` argument is fairly obvious: it contains all the information about the incoming request, such as the HTTP method, path, headers, and body.
+
+The `Response` is less intuitive in my opinion. 
+The response is an argument, not a return type. 
+Instead of returning a value all at once from the handler function, we write the response to the `Response` object.
+
 ## Routing
+
+### Middleware
+
+### API Config
 
 ## Architecture
 
