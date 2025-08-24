@@ -8,7 +8,7 @@ export async function middlewareLogResponses(req: Request, res: Response, next: 
         // Ch 2. Routing Lv 1. Middleware
         // Grab the status code from the response object
         const statusCode = res.statusCode
-        if (statusCode !== 200) {
+        if (statusCode >= 300) {
             console.log(`[NON-OK] ${req.method} ${req.url} - Status: ${statusCode}`)
         }
 
