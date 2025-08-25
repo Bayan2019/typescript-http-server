@@ -142,7 +142,17 @@ A monolith is a single, large program that contains all the functionality for bo
 A "decoupled" architecture is one where the front-end and back-end are separated into different codebases. 
 For example, the front-end might be hosted by a static file server on one domain, and the back-end might be hosted on a subdomain by a different server.
 
+### Deployment Options
+
 ## JSON
+
+### HTTP Clients
+
+### JSON
+
+### JSON Middleware
+
+### The Profane
 
 ## Error Handling
 

@@ -32,7 +32,10 @@ app.get("/admin/metrics", handlerMetric)
 // Register that handler in the express app on the /reset path
 // Ch 3. Architecture Lv 2. Admin Namespace
 // Update the GET /api/reset to GET /admin/reset.
-app.get("/admin/reset", handlerReset)
+// Ch 4. JSON Lv 1. HTTP Clients
+// Update the /admin/reset endpoint to only accept POST 
+// instead of GET requests.
+app.post("/admin/reset", handlerReset)
 
 // Set the server to listen on port 8080 using the .listen() method
 // app.listen("8080")
