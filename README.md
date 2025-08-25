@@ -150,6 +150,8 @@ For example, the front-end might be hosted by a static file server on one domain
 
 ### JSON
 
+It's very common for `POST` requests to send JSON data in the request body.
+
 ### JSON Middleware
 
 ### The Profane

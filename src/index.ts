@@ -4,6 +4,7 @@ import { handlerReadiness } from "./api/readiness.js";
 import { middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
 import { handlerMetric } from "./api/metric.js";
 import { handlerReset } from "./api/reset.js";
+import { handlerChirpsValidate } from "./api/validate.js";
 
 const app = express();
 const PORT = 8080;
@@ -36,6 +37,11 @@ app.get("/admin/metrics", handlerMetric)
 // Update the /admin/reset endpoint to only accept POST 
 // instead of GET requests.
 app.post("/admin/reset", handlerReset)
+
+// Ch 4. JSON Lv 2. JSON
+// Add a new endpoint to the Chirpy API that accepts 
+// a POST request at /api/validate_chirp
+app.post("/api/validate_chirp", handlerChirpsValidate)
 
 // Set the server to listen on port 8080 using the .listen() method
 // app.listen("8080")
