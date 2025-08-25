@@ -3,6 +3,7 @@ import express from "express";
 import { handlerReadiness } from "./api/readiness.js";
 import { middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
 import { handlerMetric } from "./api/metric.js";
+import { handlerReset } from "./api/reset.js";
 
 const app = express();
 const PORT = 8080;
@@ -21,11 +22,17 @@ app.get("/api/healthz", handlerReadiness);
 
 // Ch 2. Routing Lv 2. API Config
 // Register that handler in the express app on the /metrics path
-app.get("/api/metrics", handlerMetric)
+// Ch 3. Architecture Lv 2. Admin Namespace
+// Swap out the GET /api/metrics endpoint, 
+// which just returns plain text, 
+// for a GET /admin/metrics
+app.get("/admin/metrics", handlerMetric)
 
 // Ch 2. Routing Lv 2. API Config
 // Register that handler in the express app on the /reset path
-app.get("/api/reset", handlerMetric)
+// Ch 3. Architecture Lv 2. Admin Namespace
+// Update the GET /api/reset to GET /admin/reset.
+app.get("/admin/reset", handlerReset)
 
 // Set the server to listen on port 8080 using the .listen() method
 // app.listen("8080")
