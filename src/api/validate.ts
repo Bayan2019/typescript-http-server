@@ -9,30 +9,16 @@ export async function handlerChirpsValidate(req: Request, res: Response) {
         body: string;
     };
 
-    let body = ""; // 1. Initialize
+    // Ch 4. JSON Lv 3. JSON Middleware 
+    // use the middleware instead of manually reading the request body
+    const params: parameters = req.body;
+    const maxChirpLength = 140;
+    if (params.body.length > maxChirpLength) {
+        respondWithError(res, 400, "Chirp is too long");
+        return;
+    }
 
-    // 2. Listen for data events
-    req.on("data", (chunk) => {
-        body += chunk;
-    });
-
-    let params: parameters;
-    // 3. Listen for end events
-    req.on("end", () => {
-        try {
-            params = JSON.parse(body);
-        } catch (err: unknown) {
-            respondWithError(res, 400, "Something went wrong")
-        }
-
-        const maxChirpLength = 140;
-        if (params.body.length > maxChirpLength) {
-            respondWithError(res, 400, "Chirp is too long");
-            return;
-        }
-
-        respondWithJSON(res, 200, {
-            valid: true,
-        });
-  });
+    respondWithJSON(res, 200, {
+        valid: true,
+    })
 }

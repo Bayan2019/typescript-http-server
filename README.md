@@ -150,9 +150,88 @@ For example, the front-end might be hosted by a static file server on one domain
 
 ### JSON
 
+#### Decode JSON Request Body
 It's very common for `POST` requests to send JSON data in the request body.
 
+We can manually read this body using Node.js streams. Here’s a quick overview of the process:
+
+1. Initialize a string buffer – this will accumulate the incoming JSON data.
+2. Listen for 'data' events – Each time a chunk of data arrives, append it to your string buffer.
+3. Listen for 'end' events – Once there’s no more data coming in, parse your accumulated string as JSON.
+```ts
+async function handler(req: Request, res: Response) {
+  let body = ""; // 1. Initialize
+
+  // 2. Listen for data events
+  req.on("data", (chunk) => {
+    body += chunk;
+  });
+
+  // 3. Listen for end events
+  req.on("end", () => {
+    try {
+      const parsedBody = JSON.parse(body);
+      // now you can use `parsedBody` as a JavaScript object
+      // ...
+    } catch (error) {
+      res.status(400).send("Invalid JSON");
+    }
+  });
+}
+```
+
+#### Encode JSON Response Body
+
+Encoding the JSON response is a much simpler process. 
+You just need to stringify the JavaScript object and use the `res.send()` method.
+```ts
+async function handler(req: Request, res: Response) {
+  type responseData = {
+    createdAt: string;
+    ID: number;
+  };
+
+  const respBody: responseData = {
+    createdAt: new Date().toISOString(),
+    ID: 123,
+  };
+
+  res.header("Content-Type", "application/json");
+  const body = JSON.stringify(respBody);
+  res.status(200).send(body);
+}
+```
+
 ### JSON Middleware
+
+Manually parsing the request body with streams is pretty tedious. 
+Luckily, Express has convenient built-in middleware to parse JSON request bodies. 
+All you need is:
+```ts
+import express from "express";
+
+const app = express();
+
+// Built-in JSON body parsing middleware
+app.use(express.json());
+```
+Express will automatically:
+
+* Check if the `Content-Type` header is set to `application/json`
+* Parse the request into `req.body`.
+* Handle errors for malformed JSON.
+
+```ts
+async function handler(req: Request, res: Response) {
+  type parameters = {
+    body: string;
+  };
+
+  // req.body is automatically parsed
+  const params: parameters = req.body;
+  // ...
+}
+```
 
 ### The Profane
 

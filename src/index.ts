@@ -9,6 +9,9 @@ import { handlerChirpsValidate } from "./api/validate.js";
 const app = express();
 const PORT = 8080;
 
+// Ch 4. JSON Lv 3. JSON Middleware 
+// Register the express.json() middleware in your server.
+app.use(express.json())
 // Ch 2. Routing Lv 1. Middleware
 // Use the middleware at the application level. Since it's subscribing to all finish events, it doesn't matter where you set it.
 app.use(middlewareLogResponses)
