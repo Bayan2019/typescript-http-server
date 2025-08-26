@@ -14,8 +14,10 @@ export async function handlerChirpsValidate(req: Request, res: Response) {
     const params: parameters = req.body;
     const maxChirpLength = 140;
     if (params.body.length > maxChirpLength) {
-        respondWithError(res, 400, "Chirp is too long");
-        return;
+        // respondWithError(res, 400, "Chirp is too long");
+        // Ch 5. Error Handling Lv 1. Error-Handling Middleware
+        // throw an error in the route handler
+        throw new Error("Chirp is too long");
     }
 
     // Ch 4. JSON Lv 3. The Profane

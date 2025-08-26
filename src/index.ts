@@ -1,7 +1,7 @@
 import express from "express";
 // import path from "path";
 import { handlerReadiness } from "./api/readiness.js";
-import { middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
+import { errorHandler, middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
 import { handlerMetric } from "./api/metric.js";
 import { handlerReset } from "./api/reset.js";
 import { handlerChirpsValidate } from "./api/validate.js";
@@ -44,7 +44,16 @@ app.post("/admin/reset", handlerReset)
 // Ch 4. JSON Lv 2. JSON
 // Add a new endpoint to the Chirpy API that accepts 
 // a POST request at /api/validate_chirp
-app.post("/api/validate_chirp", handlerChirpsValidate)
+// app.post("/api/validate_chirp", handlerChirpsValidate)
+// Ch 5. Error Handling Lv 1. Error-Handling Middleware
+// Handle errors in your async route handlers using try/catch 
+// or .catch(next)
+app.post("/api/validate_chirp", (req, res, next) => {
+  Promise.resolve(handlerChirpsValidate(req, res)).catch(next);
+});
+
+// Ch 5. Error Handling Lv 1. Error-Handling Middleware
+app.use("/api", errorHandler);
 
 // Set the server to listen on port 8080 using the .listen() method
 // app.listen("8080")

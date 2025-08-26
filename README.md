@@ -237,6 +237,51 @@ async function handler(req: Request, res: Response) {
 
 ## Error Handling
 
+### Error-Handling Middleware
+
+Express allows you to capture and handle errors using special middleware. 
+An error-handling middleware function has four parameters: `(err, req, res, next)`.
+
+1. **Synchronous** errors (thrown in your route handlers) automatically skip normal middleware and go straight to this error handler.
+2. **Asynchronous** errors (in `async` functions) must be caught or passed to `next(err)` so they can also be handled here.
+
+When an error reaches your error handler, you can respond with a 500 status code or any other status you choose.
+```ts
+function errorHandler(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  console.error("Uh oh, spaghetti-o");
+  res.status(500).json({
+    error: "Boots has fallen",
+  });
+}
+
+app.use(errorHandler);
+```
+
+In Express 4, unhandled `async` errors don’t automatically go to the error handler. 
+You can work around this by using `try/catch` in async route handlers.
+```ts
+app.post("/api", async (req, res, next) => {
+  try {
+    await handler(req, res);
+  } catch (err) {
+    next(err); // Pass the error to Express
+  }
+});
+```
+Or you can use promises with `.catch(next)`.
+```ts
+app.post("/api", (req, res, next) => {
+  Promise.resolve(handler(req, res)).catch(next);
+});
+```
+
+### Custom Errors
+
 ## Storage
 
 ## Authentication
