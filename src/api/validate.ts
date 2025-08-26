@@ -18,7 +18,21 @@ export async function handlerChirpsValidate(req: Request, res: Response) {
         return;
     }
 
+    // Ch 4. JSON Lv 3. The Profane
+    const words = params.body.split(" ");
+
+  const badWords = ["kerfuffle", "sharbert", "fornax"];
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    const loweredWord = word.toLowerCase();
+    if (badWords.includes(loweredWord)) {
+      words[i] = "****";
+    }
+  }
+
+  const cleaned = words.join(" ");
+
     respondWithJSON(res, 200, {
-        valid: true,
+        cleanedBody: cleaned,
     })
 }
