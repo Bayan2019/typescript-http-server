@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 
-import { respondWithJSON, respondWithError } from "./json.js";
+import { respondWithJSON } from "./json.js";
+import { BadRequestError } from "./middlewares.js";
 
 
 // Ch 4. JSON Lv 2. JSON
@@ -17,7 +18,14 @@ export async function handlerChirpsValidate(req: Request, res: Response) {
         // respondWithError(res, 400, "Chirp is too long");
         // Ch 5. Error Handling Lv 1. Error-Handling Middleware
         // throw an error in the route handler
-        throw new Error("Chirp is too long");
+        // throw new Error("Chirp is too long");
+        // Ch 5. Error Handling Lv 2. Custom Errors
+        // Replace the generic Error 
+        // that was thrown in the validation handler 
+        // with an error that maps to 400 (bad request)
+        // Set the error message as 
+        // "Chirp is too long. Max length is 140"
+        throw new BadRequestError("Chirp is too long. Max length is 140")
     }
 
     // Ch 4. JSON Lv 3. The Profane

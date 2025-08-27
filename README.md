@@ -282,6 +282,33 @@ app.post("/api", (req, res, next) => {
 
 ### Custom Errors
 
+One of the few times when inheritance is a good idea is when creating custom error classes. 
+By extending the built-in `Error` class, we can create custom error types that are easy to identify and handle within our application.
+
+Here's a simple example of a NotFoundError class
+```ts
+class NotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
+```
+In the error handler, we can check the error type and handle it accordingly.
+```ts
+function errorMiddleware(
+  err: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  if (err instanceof NotFoundError) {
+    res.status(404).send("Not Found");
+  } else {
+    res.status(500).send("Internal Server Error");
+  }
+}
+```
+
 ## Storage
 
 ## Authentication
