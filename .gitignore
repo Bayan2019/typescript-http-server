@@ -4,3 +4,4 @@ node_modules/
 ch01-lesson01/.DS_Store
 .nvmrc
 server.log
+.env

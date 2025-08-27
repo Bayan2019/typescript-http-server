@@ -359,6 +359,9 @@ psql "postgres://wagslane:@localhost:5432/chirpy"
 
 ### Automatic Migrations
 
+So we can generate migrations based on our schema, and we can use these migrations to update our database. 
+Doing this manually is fine for now, but as our project grows, we'll want to automate this process.
+
 ### Database Review
 
 ### Collections and Singletons

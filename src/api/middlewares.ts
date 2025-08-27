@@ -76,7 +76,7 @@ export function errorHandler(
 
 // Ch 2. Routing Lv 2. API Config
 export function middlewareMetricsInc(req: Request, res: Response, next: NextFunction) {
-  config.fileserverHits += 1
+  config.api.fileServerHits += 1
   next();
 }
 
