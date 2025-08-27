@@ -5,9 +5,19 @@ import { errorHandler, middlewareLogResponses, middlewareMetricsInc } from "./ap
 import { handlerMetric } from "./api/metric.js";
 import { handlerReset } from "./api/reset.js";
 import { handlerChirpsValidate } from "./api/validate.js";
+import { config } from "./config.js";
+import postgres from "postgres";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import { drizzle } from "drizzle-orm/postgres-js";
+
+
+// Ch 6. Storage Lv 4. Automatic Migrations
+const migrationClient = postgres(config.db.url, { max: 1 });
+await migrate(drizzle(migrationClient), config.db.migrationConfig);
+
 
 const app = express();
-const PORT = 8080;
+// const PORT = 8080;
 
 // Ch 4. JSON Lv 3. JSON Middleware 
 // Register the express.json() middleware in your server.
@@ -22,7 +32,11 @@ app.use("/app", middlewareMetricsInc, express.static("./src/app"));
 
 // Ch 1. Servers Lv 2. Custom Handlers
 // Use the .get method to add a handler for the /healthz path.
-app.get("/api/healthz", handlerReadiness);
+// app.get("/api/healthz", handlerReadiness);
+// Ch 6. Storage Lv 4. Automatic Migrations
+app.get("/api/healthz", (req, res, next) => {
+  Promise.resolve(handlerReadiness(req, res)).catch(next)
+});
 
 // Ch 2. Routing Lv 2. API Config
 // Register that handler in the express app on the /metrics path
@@ -30,7 +44,11 @@ app.get("/api/healthz", handlerReadiness);
 // Swap out the GET /api/metrics endpoint, 
 // which just returns plain text, 
 // for a GET /admin/metrics
-app.get("/admin/metrics", handlerMetric)
+// app.get("/admin/metrics", handlerMetric)
+// Ch 6. Storage Lv 4. Automatic Migrations
+app.get("/admin/metrics", (req, res, next) => {
+  Promise.resolve(handlerMetric(req, res)).catch(next)
+})
 
 // Ch 2. Routing Lv 2. API Config
 // Register that handler in the express app on the /reset path
@@ -39,7 +57,12 @@ app.get("/admin/metrics", handlerMetric)
 // Ch 4. JSON Lv 1. HTTP Clients
 // Update the /admin/reset endpoint to only accept POST 
 // instead of GET requests.
-app.post("/admin/reset", handlerReset)
+// app.post("/admin/reset", handlerReset)
+// Ch 6. Storage Lv 4. Automatic Migrations
+app.post("/admin/reset", (req, res, next) => {
+  Promise.resolve(handlerReset(req, res)).catch(next)
+})
+
 
 // Ch 4. JSON Lv 2. JSON
 // Add a new endpoint to the Chirpy API that accepts 
@@ -57,6 +80,6 @@ app.use("/api", errorHandler);
 
 // Set the server to listen on port 8080 using the .listen() method
 // app.listen("8080")
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
+app.listen(config.api.port, () => {
+  console.log(`Server is running at http://localhost:${config.api.port}`);
 });
