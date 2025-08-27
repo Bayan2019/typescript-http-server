@@ -311,6 +311,58 @@ function errorMiddleware(
 
 ## Storage
 
+Arguably the most important part of your typical web application is the storage of data.
+
+When you're building a web server, any data you store in memory (in your program's variables) is lost when the server is restarted. 
+Any important data needs to be saved to disk via the file system.
+
+### Option 1: Raw Files
+
+We could take our user's data, serialize it to JSON, and save it to disk in `.json` files (or any other format for that matter). 
+It's simple, and will even work for small applications. 
+Trouble is, it will run into problems fast:
+
+* **Concurrency**: If two requests try to write to the same file at the same time, you'll get overwritten data.
+* **Scalability**: It's not efficient to read and write large files to disk for every request.
+* **Complexity**: You'll have to write a lot of code to manage the files, and the chances of bugs are high.
+
+### Option 2: a Database
+
+At the end of the day, a database technology like MySQL, PostgreSQL, or MongoDB "just" writes files to disk. 
+The difference is that they also come with all the fancy code and algorithms that make managing those files efficient and safe. 
+In the case of a SQL database, the files are abstracted away from us entirely. 
+You just write SQL queries and let the DB handle the rest.
+
+### Drizzle ORM
+
+Drizzle is a ORM and migration tool written in TypeScript. 
+Its API and syntax is very similar to SQL, making it a perfect fit for this project (we wanna stay close to the raw SQL).
+```ts
+npm i drizzle-orm postgres
+npm i -D drizzle-kit
+```
+
+A migration is just a set of changes to your database table.
+ You can have as many migrations as needed as your requirements change over time. 
+ For example, one migration might create a new table, one might delete a column, and one might add 2 new columns.
+
+An "up" migration moves the state of the database from its current schema to the schema that you want. 
+So, to get a "blank" database to the state it needs to be ready to run your application, you run all the "up" migrations.
+
+If something breaks, you can run one of the "down" migrations to revert the database to a previous state. 
+"Down" migrations are also used if you need to reset a local testing database to a known state.
+
+Test your connection string by running psql, for example:
+```ts
+psql "postgres://wagslane:@localhost:5432/chirpy"
+```
+
+### Automatic Migrations
+
+### Database Review
+
+### Collections and Singletons
+
 ## Authentication
 
 ## Authorization
