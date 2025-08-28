@@ -4,11 +4,12 @@ import { handlerReadiness } from "./api/readiness.js";
 import { errorHandler, middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
 import { handlerMetric } from "./api/metric.js";
 import { handlerReset } from "./api/reset.js";
-import { handlerChirpsValidate } from "./api/validate.js";
+import { handlerChirpsValidate } from "./api/chirps.js";
 import { config } from "./config.js";
 import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { drizzle } from "drizzle-orm/postgres-js";
+import { handlerCreateUser } from "./api/users.js";
 
 
 // Ch 6. Storage Lv 4. Automatic Migrations
@@ -74,6 +75,13 @@ app.post("/admin/reset", (req, res, next) => {
 app.post("/api/validate_chirp", (req, res, next) => {
   Promise.resolve(handlerChirpsValidate(req, res)).catch(next);
 });
+
+// Ch 6. Storage Lv 6. Create User
+// Add a new endpoint to your server POST /api/users 
+// that allows users to be created
+app.post("/api/users", (req, res, next) => {
+  Promise.resolve(handlerCreateUser(req, res)).catch(next);
+})
 
 // Ch 5. Error Handling Lv 1. Error-Handling Middleware
 app.use("/api", errorHandler);

@@ -364,6 +364,9 @@ Doing this manually is fine for now, but as our project grows, we'll want to aut
 
 ### Database Review
 
+It's very standard to use database software to store web server data on disk. 
+Sometimes that database runs on the same host machine as your server (like we're doing on your local machine), but it's also common to have a separate database server that your server connects to over the network.
+
 ### Collections and Singletons
 
 ## Authentication
