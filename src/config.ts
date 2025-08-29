@@ -15,6 +15,8 @@ type APIConfig = {
   // dbURL: string;
   // Ch 6. Storage Lv 4. Automatic Migrations
   port: number;
+  // Ch 6. Storage Lv 6. Create User
+  platform: string;
 };
 
 // Ch 6. Storage Lv 4. Automatic Migrations
@@ -55,6 +57,8 @@ export const config: Config = {
   api: {
     fileServerHits: 0,
     port: Number(envOrThrow("PORT")),
+    // Ch 6. Storage Lv 6. Create User
+    platform: String(envOrThrow("PLATFORM"))
   },
   db: {
     url: envOrThrow("DB_URL"),
