@@ -69,7 +69,7 @@ export function errorHandler(
         });
     } else {
         res.status(500).json({
-            error: "Something went wrong on our end",
+            error: `Something went wrong on our end\n${err.message}`,
         });
     }
 }

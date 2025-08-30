@@ -4,7 +4,7 @@ import { handlerReadiness } from "./api/readiness.js";
 import { errorHandler, middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
 import { handlerMetric } from "./api/metric.js";
 import { handlerReset } from "./api/reset.js";
-import { handlerChirpsValidate } from "./api/chirps.js";
+import { handlerCreateChirp } from "./api/chirps.js";
 import { config } from "./config.js";
 import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
@@ -72,8 +72,12 @@ app.post("/admin/reset", (req, res, next) => {
 // Ch 5. Error Handling Lv 1. Error-Handling Middleware
 // Handle errors in your async route handlers using try/catch 
 // or .catch(next)
-app.post("/api/validate_chirp", (req, res, next) => {
-  Promise.resolve(handlerChirpsValidate(req, res)).catch(next);
+// Ch 6. Storage Lv 7. Create Chirp
+// Delete the /api/validate_chirp endpoint 
+// that we created before, 
+// but port all that logic into this one.
+app.post("/api/chirps", (req, res, next) => {
+  Promise.resolve(handlerCreateChirp(req, res)).catch(next);
 });
 
 // Ch 6. Storage Lv 6. Create User

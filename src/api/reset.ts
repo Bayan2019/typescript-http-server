@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import { config } from "../config.js";
-import { respondWithError } from "./json.js";
+// import { respondWithError } from "./json.js";
 import { ForbiddenError } from "./middlewares.js";
-import { reset } from "src/db/queries/users.js";
+import { reset } from "../db/queries/users.js";
 
 // Ch 2. Routing Lv 2. API Config
 export async function handlerReset(_: Request, res: Response) {

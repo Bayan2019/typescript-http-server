@@ -2,36 +2,67 @@ import type { Request, Response } from "express";
 
 import { respondWithJSON } from "./json.js";
 import { BadRequestError } from "./middlewares.js";
-
+import { createChirp } from "../db/queries/chirps.js";
+import { UUID } from "crypto";
 
 // Ch 4. JSON Lv 2. JSON
-export async function handlerChirpsValidate(req: Request, res: Response) {
+// Ch 6. Storage Lv 7. Create Chirp
+export async function handlerCreateChirp(req: Request, res: Response) {
+    // Ch 6. Storage Lv 7. Create Chirp
+    // It accepts a JSON payload with a body field:
     type parameters = {
         body: string;
+        userId: string;
     };
 
     // Ch 4. JSON Lv 3. JSON Middleware 
-    // use the middleware instead of manually reading the request body
+    // use the middleware instead of 
+    // manually reading the request body
     const params: parameters = req.body;
-    const maxChirpLength = 140;
-    if (params.body.length > maxChirpLength) {
-        // respondWithError(res, 400, "Chirp is too long");
-        // Ch 5. Error Handling Lv 1. Error-Handling Middleware
-        // throw an error in the route handler
-        // throw new Error("Chirp is too long");
-        // Ch 5. Error Handling Lv 2. Custom Errors
-        // Replace the generic Error 
-        // that was thrown in the validation handler 
-        // with an error that maps to 400 (bad request)
-        // Set the error message as 
-        // "Chirp is too long. Max length is 140"
-        throw new BadRequestError("Chirp is too long. Max length is 140")
-    }
-
     // Ch 4. JSON Lv 3. The Profane
-    const words = params.body.split(" ");
+    const cleaned = validateChirp(params.body);
+
+    // Ch 6. Storage Lv 7. Create Chirp
+    // If the chirp is valid, you should save it in the database
+    const userID: UUID = params.userId as UUID;
+    const chirp = await createChirp({
+      body: cleaned,
+      user_id: userID,
+    }) 
+
+    respondWithJSON(res, 201, {
+        id: chirp.id,
+        body: cleaned,
+        createdAt: chirp.createdAt,
+        updatedAt: chirp.updatedAt,
+        userId: chirp.user_id,
+    })
+}
+
+// Ch 5. Error Handling Lv 1. Error-Handling Middleware
+// throw an error in the route handler
+// Ch 5. Error Handling Lv 2. Custom Errors
+// Replace the generic Error 
+// that was thrown in the validation handler 
+// with an error that maps to 400 (bad request)     
+function validateChirp(body: string) {
+  const maxChirpLength = 140;
+  if (body.length > maxChirpLength) {
+    // Set the error message as 
+    // "Chirp is too long. Max length is 140"
+    throw new BadRequestError(
+      `Chirp is too long. Max length is ${maxChirpLength}`,
+    );
+  }
 
   const badWords = ["kerfuffle", "sharbert", "fornax"];
+  return getCleanedBody(body, badWords);
+}
+
+// Ch 4. JSON Lv 3. The Profane
+function getCleanedBody(body: string, badWords: string[]) {
+  const words = body.split(" ");
+
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
     const loweredWord = word.toLowerCase();
@@ -41,8 +72,5 @@ export async function handlerChirpsValidate(req: Request, res: Response) {
   }
 
   const cleaned = words.join(" ");
-
-    respondWithJSON(res, 200, {
-        cleanedBody: cleaned,
-    })
+  return cleaned;
 }

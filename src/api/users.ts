@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { respondWithJSON } from "./json.js";
 import { BadRequestError } from "./middlewares.js";
-import { createUser } from "src/db/queries/users.js";
+import { createUser } from "../db/queries/users.js";
 
 // Ch 6. Storage Lv 6. Create User
 export async function handlerCreateUser(req: Request, res: Response) {
