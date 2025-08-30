@@ -2,7 +2,7 @@ import type { Request, Response } from "express";
 
 import { respondWithJSON } from "./json.js";
 import { BadRequestError } from "./middlewares.js";
-import { createChirp } from "../db/queries/chirps.js";
+import { createChirp, getAllChirps } from "../db/queries/chirps.js";
 import { UUID } from "crypto";
 
 // Ch 4. JSON Lv 2. JSON
@@ -73,4 +73,16 @@ function getCleanedBody(body: string, badWords: string[]) {
 
   const cleaned = words.join(" ");
   return cleaned;
+}
+
+// Ch 6. Storage Lv 10. Get All Chirps
+export async function handlerGetChirps(req: Request, res: Response) {
+  const chirps = await getAllChirps();
+  respondWithJSON(res, 200, chirps.map((chirp) => ({
+    id: chirp.id,
+    createdAt: chirp.createdAt,
+    updatedAt: chirp.updatedAt,
+    body: chirp.body,
+    userId: chirp.user_id,
+  })))
 }

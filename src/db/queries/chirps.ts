@@ -1,3 +1,4 @@
+import { asc } from 'drizzle-orm';
 import { db } from "../index.js";
 import { NewChirp, chirps } from "../schema.js";
 
@@ -9,4 +10,15 @@ export async function createChirp(chirp: NewChirp) {
     // .onConflictDoNothing()
     .returning();
   return result;
+}
+
+// Ch 6. Storage Lv 10. Get All Chirps
+// Add a new query that retrieves 
+// all chirps in ascending order by created_at.
+export async function getAllChirps() {
+  const results = await db
+    .select()
+    .from(chirps)
+    .orderBy(asc(chirps.createdAt))
+  return results;
 }

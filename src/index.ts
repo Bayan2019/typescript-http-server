@@ -4,7 +4,7 @@ import { handlerReadiness } from "./api/readiness.js";
 import { errorHandler, middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
 import { handlerMetric } from "./api/metric.js";
 import { handlerReset } from "./api/reset.js";
-import { handlerCreateChirp } from "./api/chirps.js";
+import { handlerCreateChirp, handlerGetChirps } from "./api/chirps.js";
 import { config } from "./config.js";
 import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
@@ -85,6 +85,13 @@ app.post("/api/chirps", (req, res, next) => {
 // that allows users to be created
 app.post("/api/users", (req, res, next) => {
   Promise.resolve(handlerCreateUser(req, res)).catch(next);
+})
+
+// Ch 6. Storage Lv 10. Get All Chirps
+// Add a GET /api/chirps endpoint 
+// that returns all chirps in the database
+app.get("/api/chirps", (req, res, next) => {
+  Promise.resolve(handlerGetChirps(req, res)).catch(next);
 })
 
 // Ch 5. Error Handling Lv 1. Error-Handling Middleware
