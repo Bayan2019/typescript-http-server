@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 
 import { respondWithJSON } from "./json.js";
-import { BadRequestError } from "./middlewares.js";
-import { createChirp, getAllChirps } from "../db/queries/chirps.js";
+import { BadRequestError, NotFoundError } from "./middlewares.js";
+import { createChirp, getAllChirps, getChirpByID } from "../db/queries/chirps.js";
 import { UUID } from "crypto";
 
 // Ch 4. JSON Lv 2. JSON
@@ -27,16 +27,10 @@ export async function handlerCreateChirp(req: Request, res: Response) {
     const userID: UUID = params.userId as UUID;
     const chirp = await createChirp({
       body: cleaned,
-      user_id: userID,
+      userId: userID,
     }) 
 
-    respondWithJSON(res, 201, {
-        id: chirp.id,
-        body: cleaned,
-        createdAt: chirp.createdAt,
-        updatedAt: chirp.updatedAt,
-        userId: chirp.user_id,
-    })
+    respondWithJSON(res, 201, chirp)
 }
 
 // Ch 5. Error Handling Lv 1. Error-Handling Middleware
@@ -78,11 +72,16 @@ function getCleanedBody(body: string, badWords: string[]) {
 // Ch 6. Storage Lv 10. Get All Chirps
 export async function handlerGetChirps(req: Request, res: Response) {
   const chirps = await getAllChirps();
-  respondWithJSON(res, 200, chirps.map((chirp) => ({
-    id: chirp.id,
-    createdAt: chirp.createdAt,
-    updatedAt: chirp.updatedAt,
-    body: chirp.body,
-    userId: chirp.user_id,
-  })))
+  respondWithJSON(res, 200, chirps)
+}
+
+
+// Ch 6. Storage Lv 11. Get Chirp
+export async function handlerGetChirp(req: Request, res: Response) {
+  const { chirpId } = req.params;
+  const chirp = await getChirpByID(chirpId)
+  if (!chirp) {
+    throw new NotFoundError(`Chirp with chirpId: ${chirpId} not found`);
+  }
+  respondWithJSON(res, 200, chirp)
 }

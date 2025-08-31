@@ -1,10 +1,11 @@
 import express from "express";
 // import path from "path";
+import { Request } from "express";
 import { handlerReadiness } from "./api/readiness.js";
 import { errorHandler, middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
 import { handlerMetric } from "./api/metric.js";
 import { handlerReset } from "./api/reset.js";
-import { handlerCreateChirp, handlerGetChirps } from "./api/chirps.js";
+import { handlerCreateChirp, handlerGetChirp, handlerGetChirps } from "./api/chirps.js";
 import { config } from "./config.js";
 import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
@@ -92,6 +93,11 @@ app.post("/api/users", (req, res, next) => {
 // that returns all chirps in the database
 app.get("/api/chirps", (req, res, next) => {
   Promise.resolve(handlerGetChirps(req, res)).catch(next);
+})
+
+// Ch 6. Storage Lv 11. Get Chirp
+app.get("/api/chirps/:chirpId", (req, res, next) => {
+  Promise.resolve(handlerGetChirp(req, res)).catch(next);
 })
 
 // Ch 5. Error Handling Lv 1. Error-Handling Middleware
