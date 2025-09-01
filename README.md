@@ -371,6 +371,25 @@ Sometimes that database runs on the same host machine as your server (like we're
 
 ## Authentication
 
+Authentication is the process of verifying who a user is. 
+If you don't have a secure authentication system, your back-end systems will be open to attack!
+
+Imagine if I could make an HTTP request to the YouTube API and upload a video to your channel. 
+YouTube's authentication system prevents this from happening by verifying that I am who I say I am.
+
+### Authentication With Passwords
+
+Passwords are a common way to authenticate users.
+
+There are 2 really important things to consider when storing passwords:
+
+* **Storing passwords in plain text is awful**. If someone gets access to your database, they will be able to see all of your users' passwords. If you store passwords in plain text, you are giving away your users' passwords to anyone who gets access to your database.
+* **Password strength matters**. If you allow users to choose weak passwords, they will be more likely to reuse the same password on other websites. If someone gets access to your database, they will be able to log in to your users' other accounts.
+
+**Hashing** is a one-way function. It takes a string as input and produces a string as output. The output string is called a hash.
+
+For now, just know that hashing is a way to store passwords in a way that prevents them from being read by anyone who gets access to your database, but still allows us to compare passwords when a user logs in.
+
 ## Authorization
 
 ## Webhooks

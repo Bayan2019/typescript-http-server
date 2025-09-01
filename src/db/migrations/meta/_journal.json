@@ -15,6 +15,13 @@
       "when": 1756563123606,
       "tag": "0001_cold_firedrake",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756634994074,
+      "tag": "0002_conscious_king_cobra",
+      "breakpoints": true
     }
   ]
 }
