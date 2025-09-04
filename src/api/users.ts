@@ -1,10 +1,15 @@
 import type { Request, Response } from "express";
 import { respondWithJSON } from "./json.js";
-import { BadRequestError, UnauthorizedError } from "./middlewares.js";
-import { createUser, getUserByEmail } from "../db/queries/users.js";
-import { hashPassword, checkPasswordHash } from "../auth.js";
-import { boolean } from "drizzle-orm/gel-core/index.js";
+import { BadRequestError } from "./middlewares.js";
+import { createUser } from "../db/queries/users.js";
+import { hashPassword } from "../auth.js";
 import { NewUser } from "src/db/schema.js";
+
+// Ch 7. Authentification Lv 1. Authentication with Password
+// You can use the Omit utility type 
+// to create a new UserResponse type 
+// that excludes the hashed_password field.
+export type UserResponse = Omit<NewUser, "hashedPassword">;
 
 // Ch 6. Storage Lv 6. Create User
 export async function handlerCreateUser(req: Request, res: Response) {
@@ -31,7 +36,14 @@ export async function handlerCreateUser(req: Request, res: Response) {
     // to hash the password before storing it in the database.
     const hashedPassword: string = await hashPassword(params.password);
     // Ch 6. Storage Lv 6. Create User
-    const user = await createUser({ email: params.email, passwordHashed: hashedPassword } satisfies NewUser);
+    const user = await createUser({ 
+        email: params.email, 
+        passwordHashed: hashedPassword 
+    } satisfies NewUser);
+
+    if (!user) {
+        throw new Error("Could not create user");
+    }
 
     // Ch 6. Storage Lv 6. Create User
     // and returns the user's ID, email, and timestamps 
@@ -41,41 +53,6 @@ export async function handlerCreateUser(req: Request, res: Response) {
         email: params.email,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
-    })
+    } satisfies UserResponse)
 }
 
-// Ch 7. Authentification Lv 1. Authentication with Password
-// This endpoint should allow a user to login. 
-export async function handlerLogin(req: Request, res: Response) {
-    // It should accept this body:
-    type parameters = {
-        email: string;
-        password: string;
-    };
-    const params: parameters = req.body;
-    if (!params.email) {
-        throw new BadRequestError("Missing email field");
-    }
-    if (!params.password) {
-        throw new BadRequestError("Missing password field");
-    }
-    const user = await getUserByEmail(params.email);
-    //  If either the user lookup or the password comparison errors, 
-    // just return a 401 Unauthorized response with the message
-    if (!user) {
-        throw new UnauthorizedError("No user with such email")
-    }
-    // Once you have the user, check to see if their password matches
-    const isPasswordRight = await checkPasswordHash(params.password, user.passwordHashed)
-    //  If either the user lookup or the password comparison errors, 
-    // just return a 401 Unauthorized response with the message
-    if (!isPasswordRight) {
-        throw new UnauthorizedError("Password is incorrect")
-    }
-    respondWithJSON(res, 200, {
-        id: user.id,
-        email: params.email,
-        createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
-    })
-}
