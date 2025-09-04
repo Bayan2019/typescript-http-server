@@ -10,7 +10,7 @@ import { config } from "./config.js";
 import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { handlerCreateUser } from "./api/users.js";
+import { handlerCreateUser, handlerLogin } from "./api/users.js";
 
 
 // Ch 6. Storage Lv 4. Automatic Migrations
@@ -86,6 +86,12 @@ app.post("/api/chirps", (req, res, next) => {
 // that allows users to be created
 app.post("/api/users", (req, res, next) => {
   Promise.resolve(handlerCreateUser(req, res)).catch(next);
+})
+
+// Ch 7. Authentification Lv 1. Authentication with Password
+// Add a POST /api/login endpoint.
+app.post("/api/login", (req, res, next) => {
+  Promise.resolve(handlerLogin(req, res)).catch(next);
 })
 
 // Ch 6. Storage Lv 10. Get All Chirps

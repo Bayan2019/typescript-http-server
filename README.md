@@ -391,6 +391,7 @@ There are 2 really important things to consider when storing passwords:
 For now, just know that hashing is a way to store passwords in a way that prevents them from being read by anyone who gets access to your database, but still allows us to compare passwords when a user logs in.
 
 ### Types of Authentication
+
 Here are a few of the most common authentication methods you'll see in the wild:
 
 Password + ID (username, email, etc.)

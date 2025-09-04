@@ -11,6 +11,8 @@ export const users = pgTable("users", {
   // Ch 7. Authentication Lv 1. Authentication With Passwords
   // Add a non-null VARCHAR column to 
   // the users table called hashed_password
+      // Ch 7. Authentication Lv 1. Authentication With Passwords
+      // It should default to "unset" for existing users.
   passwordHashed: varchar("hashed_password")
     .notNull()
       // Ch 7. Authentication Lv 1. Authentication With Passwords
