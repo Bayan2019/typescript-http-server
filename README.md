@@ -399,6 +399,19 @@ Password + ID (username, email, etc.)
 Magic Links
 API Keys
 
+### JWTs
+
+There are several different ways to handle authentication. 
+We'll use JWTs in this course. 
+They're a popular choice for APIs that are consumed by web applications and mobile apps.
+
+A JWT is a JSON Web Token. 
+It's a cryptographically signed JSON object that contains information about the user. 
+You'll learn about how the cryptography of JWTs work in our Learn Cryptography course. 
+For now, it's just important to know that once the token is created by the server, the data in the token can't be changed without the server knowing.
+
+When your server issues a JWT to Bob, Bob can use that token to make requests as Bob to your API. 
+Bob won't be able to change the token to make requests as Alice.
 
 ## Authorization
 

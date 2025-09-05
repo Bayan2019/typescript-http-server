@@ -1,6 +1,6 @@
 import express from "express";
 // import path from "path";
-import { Request } from "express";
+// import { Request } from "express";
 import { handlerReadiness } from "./api/readiness.js";
 import { errorHandler, middlewareLogResponses, middlewareMetricsInc } from "./api/middlewares.js";
 import { handlerMetric } from "./api/metric.js";
@@ -10,7 +10,8 @@ import { config } from "./config.js";
 import postgres from "postgres";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { handlerCreateUser, handlerLogin } from "./api/users.js";
+import { handlerCreateUser } from "./api/users.js";
+import { handlerLogin } from "./api/auth.js";
 
 
 // Ch 6. Storage Lv 4. Automatic Migrations

@@ -5,18 +5,22 @@
     "start": "node dist/index.js",
     "dev": "npx tsc && node dist/index.js",
     "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit migrate"
+    "migrate": "drizzle-kit migrate",
+    "test": "vitest --run"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "drizzle-orm": "^0.44.5",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "postgres": "^3.4.7",
     "typescript": "^5.9.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.3",
-    "drizzle-kit": "^0.31.4"
+    "@types/jsonwebtoken": "^9.0.10",
+    "drizzle-kit": "^0.31.4",
+    "vitest": "^3.2.4"
   }
 }
