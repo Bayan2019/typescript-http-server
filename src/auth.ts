@@ -68,3 +68,10 @@ export function validateJWT(tokenString: string, secret: string): string {
     
   return decoded.sub;
 }
+
+// Ch 7. Authentification Lv 7. Authentication With JWTs
+export function getBearerToken(req: Request): string {
+  let bearer: string;
+  bearer = "Bearer "
+  return bearer;
+}
